@@ -12,22 +12,18 @@ void setup() {
     /*PC14*/
     GPIOC->CRH    &= ~(0xF << 24);
     GPIOC->CRH    |=  (0x1 << 24);
-
-    //Built-in LED Active
-    GPIOC->BSRR   |=  (0x1 << 29);
-    //External LED Active
-    GPIOC->BSRR   |=  (0x1 << 14);
-
 }
 
 void loop(){
     for(int i=1; i<300000; i++){
         //Built-in LED ON / External LED OFF
-        GPIOC->ODR    &=  ~((0x1 << 13)|(0x1 << 14));
+        GPIOC->BSRR = (0x1 << 13);
+        GPIOC->BSRR = (0x1 << 14) << 16;
     }
     for(int i=1; i<300000; i++){
         //Built-in LED OFF / External LED ON
-        GPIOC->ODR    |=  ((0x1 << 13)|(0x1 << 14));
+        GPIOC->BSRR = (0x1 << 13) << 16;
+        GPIOC->BSRR = (0x1 << 14);
     }
 }
 
